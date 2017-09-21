@@ -34,17 +34,15 @@ public class BlackJack
             while(!gameEnd)
             {
                 System.out.println(message);
-                //try
-                //{
+                try
+                {
                     answer = in.nextInt();
-                //}
-                //catch(InputMismatchException ex)
-                //{
-                // System.err.println("Invalid Input! \n Please use an interger between 1 and 4.");
-
-                // in.nextLine();
-
-                // }
+                }
+                catch(InputMismatchException ex)
+                {
+                System.err.println("Invalid Input! \nPlease use an interger between 1 and 4.");
+                in.nextLine();
+                }
                 if( answer == 1)
                 {
                     playerCard = rand.nextInt(13) + 1;
