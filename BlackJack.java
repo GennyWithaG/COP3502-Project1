@@ -9,6 +9,7 @@ public class BlackJack
         boolean end = false;
         boolean gameEnd = false;
         String message= "1. Get another card\n" + "2. Hold hand\n" + "3. Print statistics\n" + "4. Exit\n";
+        String cardMessage = "";
         int playerHand = 0;
         int dealerHand = 0;
         int gameNumber = 1;
@@ -17,20 +18,18 @@ public class BlackJack
         int dealerWins = 0;
         int tieGames = 0;
         int answer = 0;
-        Random rand = new Random();
-        int randInt = rand.nextInt(14);
-
 
         double winPercentage = 0.0;
         while(!end)
         {
             System.out.println("START GAME #" + gameNumber);
-            playerCard = rand.nextInt(13) + 1;
-            if( playerCard ==13 || playerCard == 12 || playerCard == 11)
+            playerCard = newCard();
+            cardMessage = printCard(playerCard);
+            if(cardMessage.equals("Your card is a King!")||cardMessage.equals("Your card is a Queen!")||cardMessage.equals("Your card is a Jack!"))
             {
                 playerCard = 10;
             }
-
+            playerHand = playerCard;
             while(!gameEnd)
             {
                 System.out.println(message);
@@ -45,29 +44,11 @@ public class BlackJack
                 }
                 if( answer == 1)
                 {
-                    playerCard = rand.nextInt(13) + 1;
-                    if(playerCard == 13)
+                    playerCard = newCard();
+                    cardMessage = printCard(playerCard);
+                    if(cardMessage.equals("Your card is a King!")||cardMessage.equals("Your card is a Queen!")||cardMessage.equals("Your card is a Jack!"))
                     {
-                        System.out.println("Your card is a King!");
                         playerCard = 10;
-                    }
-                    else if(playerCard == 12)
-                    {
-                        System.out.println("Your card is a Queen!");
-                        playerCard = 10;
-                    }
-                    else if(playerCard == 11)
-                    {
-                        System.out.println("Your card is a Jack!");
-                        playerCard = 10;
-                    }
-                    else if(playerCard == 1)
-                    {
-                        System.out.println("Your card is an Ace!");
-                    }
-                    else
-                    {
-                        System.out.println("Your card is a " + playerCard + "!");
                     }
                     playerHand += playerCard;
                     System.out.println("Your hand is: " + playerHand);
@@ -86,7 +67,7 @@ public class BlackJack
                 }
                 else if( answer == 2)
                 {
-                    dealerHand = rand.nextInt(11) + 15;
+                    dealerHand = newCard();
                     System.out.println("Dealer's Hand: " + dealerHand);
                     System.out.println("Your Hand: " + playerHand);
 
@@ -118,12 +99,8 @@ public class BlackJack
                 }
                 else if( answer == 3)
                 {
-                    System.out.println("Number of Player Wins: " + playerWins);
-                    System.out.println("Number of Dealer Wins: " + dealerWins);
-                    System.out.println("Number of Tied Games: " + tieGames);
-                    System.out.println("Total # of Games: " + gameNumber);
-                    winPercentage = ((double)playerWins/ (double)gameNumber) * 100;
-                    System.out.println("Percentage of Player Wins " + winPercentage);
+                    BlackJack var = new BlackJack();
+                    var.gameStats(playerWins, dealerWins, tieGames, gameNumber);
                 }
                 else if ( answer == 4)
                 {
@@ -141,5 +118,49 @@ public class BlackJack
             playerCard = 0;
             dealerHand = 0;
         }
+    }
+    public static int newCard()
+    {
+        Random rand = new Random();
+        int randInt = rand.nextInt(14);
+        return randInt;
+    }
+    public static String printCard(int input)
+    {
+        String output = "";
+        if(input == 13)
+        {
+            output = "Your card is a King!";
+        }
+        else if(input == 12)
+        {
+            output = "Your card is a Queen!";
+        }
+        else if(input == 11)
+        {
+            output = "Your card is a Jack!" ;
+        }
+        else if(input == 1)
+        {
+            output = "Your card is an Ace!";
+        }
+        else if(input == 8)
+        {
+            output = "Your card is an 8!";
+        }
+        else
+        {
+            output = "Your card is a " + input + "!";
+        }
+        return output;
+    }
+    public static void gameStats(int playerWinTotal, int dealerWinTotal, int tieGameTotal, int gameNumberTotal )
+    {
+        System.out.println("Number of Player Wins: " + playerWinTotal);
+        System.out.println("Number of Dealer Wins: " + dealerWinTotal);
+        System.out.println("Number of Tied Games: " + tieGameTotal);
+        System.out.println("Total # of Games: " + gameNumberTotal);
+        double winPercentage = ((double)playerWinTotal/ (double)gameNumberTotal) * 100;
+        System.out.println("Percentage of Player Wins " + winPercentage + "\n");
     }
 }
